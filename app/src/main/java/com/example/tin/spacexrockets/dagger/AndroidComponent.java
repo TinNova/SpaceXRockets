@@ -1,6 +1,8 @@
 package com.example.tin.spacexrockets.dagger;
 
 import com.example.tin.spacexrockets.AppClass;
+import com.example.tin.spacexrockets.MainActivity;
+import com.example.tin.spacexrockets.MainViewModel;
 
 import javax.inject.Singleton;
 
@@ -12,5 +14,6 @@ import dagger.Component;
 public interface AndroidComponent {
 
     void inject(AppClass appClass);
+    void inject(MainViewModel mainViewModel);
 
 }

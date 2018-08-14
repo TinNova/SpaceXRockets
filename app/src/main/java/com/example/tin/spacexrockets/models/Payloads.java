@@ -32,9 +32,7 @@ public class Payloads implements Parcelable
         public Payloads[] newArray(int size) {
             return (new Payloads[size]);
         }
-
-    }
-    ;
+    };
 
     protected Payloads(Parcel in) {
         this.option1 = ((String) in.readValue((String.class.getClassLoader())));

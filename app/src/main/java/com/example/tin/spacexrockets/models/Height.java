@@ -12,10 +12,10 @@ public class Height implements Parcelable
 
     @SerializedName("meters")
     @Expose
-    private int meters;
+    private double meters;
     @SerializedName("feet")
     @Expose
-    private int feet;
+    private double feet;
     public final static Creator<Height> CREATOR = new Creator<Height>() {
 
 
@@ -34,26 +34,26 @@ public class Height implements Parcelable
     ;
 
     protected Height(Parcel in) {
-        this.meters = ((int) in.readValue((int.class.getClassLoader())));
-        this.feet = ((int) in.readValue((int.class.getClassLoader())));
+        this.meters = ((double) in.readValue((double.class.getClassLoader())));
+        this.feet = ((double) in.readValue((double.class.getClassLoader())));
     }
 
     public Height() {
     }
 
-    public int getMeters() {
+    public double getMeters() {
         return meters;
     }
 
-    public void setMeters(int meters) {
+    public void setMeters(double meters) {
         this.meters = meters;
     }
 
-    public int getFeet() {
+    public double getFeet() {
         return feet;
     }
 
-    public void setFeet(int feet) {
+    public void setFeet(double feet) {
         this.feet = feet;
     }
 

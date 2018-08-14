@@ -15,7 +15,7 @@ public class SecondStage implements Parcelable
     private int engines;
     @SerializedName("fuel_amount_tons")
     @Expose
-    private int fuelAmountTons;
+    private double fuelAmountTons;
     @SerializedName("burn_time_sec")
     @Expose
     private int burnTimeSec;
@@ -44,7 +44,7 @@ public class SecondStage implements Parcelable
 
     protected SecondStage(Parcel in) {
         this.engines = ((int) in.readValue((int.class.getClassLoader())));
-        this.fuelAmountTons = ((int) in.readValue((int.class.getClassLoader())));
+        this.fuelAmountTons = ((double) in.readValue((double.class.getClassLoader())));
         this.burnTimeSec = ((int) in.readValue((int.class.getClassLoader())));
         this.thrust = ((Thrust) in.readValue((Thrust.class.getClassLoader())));
         this.payloads = ((Payloads) in.readValue((Payloads.class.getClassLoader())));
@@ -61,11 +61,11 @@ public class SecondStage implements Parcelable
         this.engines = engines;
     }
 
-    public int getFuelAmountTons() {
+    public double getFuelAmountTons() {
         return fuelAmountTons;
     }
 
-    public void setFuelAmountTons(int fuelAmountTons) {
+    public void setFuelAmountTons(double fuelAmountTons) {
         this.fuelAmountTons = fuelAmountTons;
     }
 
