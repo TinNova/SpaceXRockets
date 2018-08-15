@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
         Toast.makeText(this, "Name: " + rocketResponse.getName(), Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(Const.ARG_ROCKET_ITEM, rocketResponse);
+        intent.putExtra("ID", rocketResponse.getId());
+        intent.putExtra("DESC", rocketResponse.getDescription());
         startActivity(intent);
 
     }
