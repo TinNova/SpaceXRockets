@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.example.tin.spacexrockets.models.RocketResponse;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -20,7 +20,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends AndroidViewModel {
 
-    private MutableLiveData<List<RocketResponse>> rockets;
+    private static final String TAG = MainViewModel.class.getSimpleName();
+
+    private MutableLiveData<ArrayList<RocketResponse>> rockets;
 
     @Inject
     RestService restService;
@@ -30,10 +32,9 @@ public class MainViewModel extends AndroidViewModel {
 
         ((AppClass) application).getAndroidComponent().inject(this);
 
-        Log.d("MainViewModel", "CoinViewModel: rest service " + restService);
     }
 
-    public MutableLiveData<List<RocketResponse>> listenToDataChanges() {
+    public MutableLiveData<ArrayList<RocketResponse>> listenToDataChanges() {
 
         if (rockets == null) {
 
@@ -50,18 +51,23 @@ public class MainViewModel extends AndroidViewModel {
         restService.getRockets()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<RocketResponse>>() {
+                .subscribe(new Observer<ArrayList<RocketResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(List<RocketResponse> rocketResponse) {
+                    public void onNext(ArrayList<RocketResponse> rocketResponse) {
 
                         //so here we tell our live data to NOTIFY ALL SUBSCRIBERS that data was changed
                         rockets.postValue(rocketResponse);
                         Log.d("MainViewModel", "RocketResponse: " + rocketResponse);
+
+                        Log.d(TAG, "RocketResponse: " + rocketResponse.get(0).getName());
+                        Log.d(TAG, "RocketResponse: " + rocketResponse.get(1).getName());
+                        Log.d(TAG, "RocketResponse: " + rocketResponse.get(2).getName());
+                        Log.d(TAG, "RocketResponse: " + rocketResponse.get(3).getName());
 
                     }
 

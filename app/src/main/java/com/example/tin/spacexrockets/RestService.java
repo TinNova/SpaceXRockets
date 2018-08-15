@@ -2,7 +2,7 @@ package com.example.tin.spacexrockets;
 
 import com.example.tin.spacexrockets.models.RocketResponse;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import io.reactivex.Observable;
 
@@ -16,7 +16,7 @@ public class RestService {
         this.apiMethods = apiMethods;
     }
 
-    public Observable<List<RocketResponse>> getRockets() {
+    public Observable<ArrayList<RocketResponse>> getRockets() {
         /* Here we receive the ListingResponse, (which is already parsed when it arrives here) */
         return apiMethods.getRockets();
     }
