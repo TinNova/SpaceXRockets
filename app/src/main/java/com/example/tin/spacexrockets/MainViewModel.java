@@ -64,11 +64,6 @@ public class MainViewModel extends AndroidViewModel {
                         rockets.postValue(rocketResponse);
                         Log.d("MainViewModel", "RocketResponse: " + rocketResponse);
 
-                        Log.d(TAG, "RocketResponse: " + rocketResponse.get(0).getName());
-                        Log.d(TAG, "RocketResponse: " + rocketResponse.get(1).getName());
-                        Log.d(TAG, "RocketResponse: " + rocketResponse.get(2).getName());
-                        Log.d(TAG, "RocketResponse: " + rocketResponse.get(3).getName());
-
                     }
 
                     @Override

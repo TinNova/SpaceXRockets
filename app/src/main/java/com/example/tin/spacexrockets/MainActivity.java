@@ -2,6 +2,7 @@ package com.example.tin.spacexrockets;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.tin.spacexrockets.models.RocketResponse;
+import com.example.tin.spacexrockets.utils.Const;
 
 import java.util.ArrayList;
 
@@ -41,11 +43,6 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
             @Override
             public void onChanged(@Nullable ArrayList<RocketResponse> rocketResponse) {
 
-                Log.d(TAG, "RocketResponse: " + rocketResponse.get(0).getName());
-                Log.d(TAG, "RocketResponse: " + rocketResponse.get(1).getName());
-                Log.d(TAG, "RocketResponse: " + rocketResponse.get(2).getName());
-                Log.d(TAG, "RocketResponse: " + rocketResponse.get(3).getName());
-
                 mAdapter.addItems(rocketResponse);
 
             }
@@ -68,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
     public void rocketItemClick(RocketResponse rocketResponse) {
 
         Toast.makeText(this, "Name: " + rocketResponse.getName(), Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(Const.ARG_ROCKET_ITEM, rocketResponse);
+        startActivity(intent);
 
     }
 }
