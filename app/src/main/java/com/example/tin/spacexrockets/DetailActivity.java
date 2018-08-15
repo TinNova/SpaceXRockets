@@ -21,9 +21,6 @@ public class DetailActivity extends AppCompatActivity {
 
     private TextView descTv;
 
-    RocketResponse mRocketResponse;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
