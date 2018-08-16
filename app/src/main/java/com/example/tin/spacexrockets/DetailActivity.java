@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +27,10 @@ public class DetailActivity extends AppCompatActivity {
     private RocketLaunchAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private DetailViewModel detailViewModel;
+    private ProgressBar mProgressBar;
 
     private TextView descTv;
+    private TextView descTitleTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +67,6 @@ public class DetailActivity extends AppCompatActivity {
 
             bindOnViewModel(rocketId);
         }
-
     }
 
     private void bindOnViewModel(String rocketId) {
@@ -76,12 +79,21 @@ public class DetailActivity extends AppCompatActivity {
 
                 mAdapter.addItems(response);
 
-//                Log.i(TAG, "response MissionName: " + response.get(0).getMissionName());
-//                Log.i(TAG, "response Rocket Id: " + response.get(0).getRocket().getRocketId());
-
-
+                // Never triggered if Big Falcon Rocket is clicked on, check onNext in ViewModel for more info
+                hideProgressBar();
             }
         });
+    }
 
+    //TODO: Hide progress bar when data has downloaded in onNext in ViewModel
+    public void hideProgressBar() {
+
+        descTitleTv = findViewById(R.id.tV_descTitle);
+
+        mProgressBar = findViewById(R.id.pB_detail);
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        descTitleTv.setVisibility(View.VISIBLE);
+        descTv.setVisibility(View.VISIBLE);
     }
 }

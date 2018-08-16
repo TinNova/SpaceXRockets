@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.tin.spacexrockets.models.rocket.RocketResponse;
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
     private MainViewModel mainViewModel;
     private RocketAdapter mAdapter;
     private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
 
                 mAdapter.addItems(rocketResponse);
 
+                hideProgressBar();
+
             }
         });
     }
@@ -70,4 +75,15 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
         startActivity(intent);
 
     }
+
+    //TODO: Hide progress bar when data has downloaded in onNext in ViewModel
+    public void hideProgressBar() {
+
+        mProgressBar = findViewById(R.id.pB_main);
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+
+    }
 }
+
+
