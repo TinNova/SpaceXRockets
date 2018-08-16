@@ -4,6 +4,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private static final String TAG = DetailActivity.class.getSimpleName();
 
+    private RocketLaunchAdapter mAdapter;
+    private RecyclerView mRecyclerView;
     private DetailViewModel detailViewModel;
 
     private TextView descTv;
@@ -39,16 +43,27 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent getIntent = getIntent();
 
-        if (getIntent != null) {
+        if (getIntent == null) {
+
+            Toast.makeText(this, "Error loading data, please try again.", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            /* Setting up the RecyclerView and Adapter*/
+            mRecyclerView = findViewById(R.id.rV_detail);
+            mRecyclerView.setHasFixedSize(true);
+            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+            mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+            mAdapter = new RocketLaunchAdapter(getApplicationContext());
+            mRecyclerView.setAdapter(mAdapter);
 
             String rocketId = getIntent.getStringExtra("ID");
             descTv.setText(getIntent.getStringExtra("DESC"));
 
             bindOnViewModel(rocketId);
-
-        } else {
-            Toast.makeText(this, "Error loading data, please try again.", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private void bindOnViewModel(String rocketId) {
@@ -59,7 +74,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(@android.support.annotation.Nullable ArrayList<RocketLaunchResponse> response) {
 
-                //mAdapter.addItems(rocketResponse);
+                mAdapter.addItems(response);
 
 //                Log.i(TAG, "response MissionName: " + response.get(0).getMissionName());
 //                Log.i(TAG, "response Rocket Id: " + response.get(0).getRocket().getRocketId());
