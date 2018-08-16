@@ -6,7 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.tin.spacexrockets.models.rocket.RocketResponse;
+import com.example.tin.spacexrockets.models.rocketLaunch.RocketLaunchResponse;
 
 import java.util.ArrayList;
 
@@ -18,58 +18,58 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class MainViewModel extends AndroidViewModel {
+public class DetailViewModel extends AndroidViewModel {
 
-    private static final String TAG = MainViewModel.class.getSimpleName();
+    private static final String TAG = DetailViewModel.class.getSimpleName();
 
-    private MutableLiveData<ArrayList<RocketResponse>> rockets;
+    private MutableLiveData<ArrayList<RocketLaunchResponse>> rocketLaunches;
 
     @Inject
     RestService restService;
 
-    public MainViewModel(@NonNull Application application) {
+    public DetailViewModel(@NonNull Application application) {
         super(application);
 
         ((AppClass) application).getAndroidComponent().inject(this);
 
     }
 
-    public MutableLiveData<ArrayList<RocketResponse>> listenToDataChanges() {
+    public MutableLiveData<ArrayList<RocketLaunchResponse>> listenToDataChanges(String rocketId) {
 
-        if (rockets == null) {
+        if (rocketLaunches == null) {
 
-            rockets = new MutableLiveData<>();
+            rocketLaunches = new MutableLiveData<>();
 
-            loadItems();
+            loadItems(rocketId);
         }
 
-        return rockets;
+        return rocketLaunches;
     }
 
-    public void loadItems() {
+    public void loadItems(String rocketId) {
 
-        restService.getRockets()
+        restService.getRocketLaunches(rocketId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ArrayList<RocketResponse>>() {
+                .subscribe(new Observer<ArrayList<RocketLaunchResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(ArrayList<RocketResponse> rocketResponse) {
+                    public void onNext(ArrayList<RocketLaunchResponse> rocketLaunchResponse) {
 
                         //so here we tell our live data to NOTIFY ALL SUBSCRIBERS that data was changed
-                        rockets.postValue(rocketResponse);
-                        Log.d(TAG, "RocketResponse: " + rocketResponse);
+                        rocketLaunches.postValue(rocketLaunchResponse);
+                        Log.d("DetailViewModel", "RocketLaunchResponse: " + rocketLaunchResponse);
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
 
-                        Log.e("MainViewModel", "onError: error while load listings " + Log.getStackTraceString(e));
+                        Log.e("DetailViewModel", "onError: error while load listings " + Log.getStackTraceString(e));
                     }
 
                     @Override
@@ -78,4 +78,5 @@ public class MainViewModel extends AndroidViewModel {
                     }
                 });
     }
+
 }

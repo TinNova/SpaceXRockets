@@ -1,13 +1,13 @@
 
-package com.example.tin.spacexrockets.models;
+package com.example.tin.spacexrockets.models.rocket;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Thrust implements Parcelable
+public class ThrustSeaLevel implements Parcelable
 {
 
     @SerializedName("kN")
@@ -16,29 +16,29 @@ public class Thrust implements Parcelable
     @SerializedName("lbf")
     @Expose
     private int lbf;
-    public final static Creator<Thrust> CREATOR = new Creator<Thrust>() {
+    public final static Creator<ThrustSeaLevel> CREATOR = new Creator<ThrustSeaLevel>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public Thrust createFromParcel(Parcel in) {
-            return new Thrust(in);
+        public ThrustSeaLevel createFromParcel(Parcel in) {
+            return new ThrustSeaLevel(in);
         }
 
-        public Thrust[] newArray(int size) {
-            return (new Thrust[size]);
+        public ThrustSeaLevel[] newArray(int size) {
+            return (new ThrustSeaLevel[size]);
         }
 
     }
     ;
 
-    protected Thrust(Parcel in) {
+    protected ThrustSeaLevel(Parcel in) {
         this.kN = ((int) in.readValue((int.class.getClassLoader())));
         this.lbf = ((int) in.readValue((int.class.getClassLoader())));
     }
 
-    public Thrust() {
+    public ThrustSeaLevel() {
     }
 
     public int getKN() {
@@ -59,7 +59,7 @@ public class Thrust implements Parcelable
 
     @Override
     public String toString() {
-        return "Thrust{" +
+        return "ThrustSeaLevel{" +
                 "kN=" + kN +
                 ", lbf=" + lbf +
                 '}';

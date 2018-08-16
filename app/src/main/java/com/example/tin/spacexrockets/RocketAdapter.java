@@ -7,8 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.tin.spacexrockets.models.Engines;
-import com.example.tin.spacexrockets.models.RocketResponse;
+import com.example.tin.spacexrockets.models.rocket.RocketResponse;
 
 import java.util.ArrayList;
 import java.util.List;

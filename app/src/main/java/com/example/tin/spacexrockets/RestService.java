@@ -1,6 +1,9 @@
 package com.example.tin.spacexrockets;
 
-import com.example.tin.spacexrockets.models.RocketResponse;
+import android.util.Log;
+
+import com.example.tin.spacexrockets.models.rocket.RocketResponse;
+import com.example.tin.spacexrockets.models.rocketLaunch.RocketLaunchResponse;
 
 import java.util.ArrayList;
 
@@ -8,6 +11,8 @@ import io.reactivex.Observable;
 
 
 public class RestService {
+
+    private static final String TAG = RestService.class.getSimpleName();
 
     private ApiMethods apiMethods;
 
@@ -17,7 +22,12 @@ public class RestService {
     }
 
     public Observable<ArrayList<RocketResponse>> getRockets() {
-        /* Here we receive the ListingResponse, (which is already parsed when it arrives here) */
+        /* Here we receive the Response, (which is already parsed when it arrives here) */
         return apiMethods.getRockets();
+    }
+
+    public Observable<ArrayList<RocketLaunchResponse>> getRocketLaunches(String rocketId) {
+        /* Here we receive the Response, (which is already parsed when it arrives here) */
+        return apiMethods.getRocketLaunches(rocketId);
     }
 }

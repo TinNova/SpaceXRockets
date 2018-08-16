@@ -1,5 +1,5 @@
 
-package com.example.tin.spacexrockets.models;
+package com.example.tin.spacexrockets.models.rocket;
 
 import java.util.List;
 

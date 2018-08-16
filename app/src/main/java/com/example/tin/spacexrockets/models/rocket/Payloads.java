@@ -1,5 +1,5 @@
 
-package com.example.tin.spacexrockets.models;
+package com.example.tin.spacexrockets.models.rocket;
 
 import android.os.Parcel;
 import android.os.Parcelable;

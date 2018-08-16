@@ -8,11 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.example.tin.spacexrockets.models.RocketResponse;
-import com.example.tin.spacexrockets.utils.Const;
+import com.example.tin.spacexrockets.models.rocket.RocketResponse;
 
 import java.util.ArrayList;
 
@@ -35,6 +33,18 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
 
     }
 
+    private void setupViews() {
+
+        /* Setting up the RecyclerView and Adapter*/
+        mRecyclerView = findViewById(R.id.rV_main);
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        mAdapter = new RocketAdapter(getApplicationContext(), this);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
     private void bindOnViewModel() {
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
@@ -47,18 +57,6 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
 
             }
         });
-    }
-
-    private void setupViews() {
-
-        /* Setting up the RecyclerView and Adapter*/
-        mRecyclerView = findViewById(R.id.rV_main);
-        mRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-
-        mAdapter = new RocketAdapter(getApplicationContext(), this);
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override

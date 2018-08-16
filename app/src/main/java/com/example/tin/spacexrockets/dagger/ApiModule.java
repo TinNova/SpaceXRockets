@@ -40,6 +40,7 @@ public class ApiModule {
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         return new OkHttpClient.Builder()
+                .addInterceptor(httpLoggingInterceptor)
                 .build();
     }
 
