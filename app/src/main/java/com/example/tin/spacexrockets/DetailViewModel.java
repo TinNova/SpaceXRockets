@@ -60,10 +60,14 @@ public class DetailViewModel extends AndroidViewModel {
                     @Override
                     public void onNext(ArrayList<RocketLaunchResponse> rocketLaunchResponse) {
 
-                        //so here we tell our live data to NOTIFY ALL SUBSCRIBERS that data was changed
-                        rocketLaunches.postValue(rocketLaunchResponse);
-                        Log.d("DetailViewModel", "RocketLaunchResponse: " + rocketLaunchResponse);
+                        if (rocketLaunchResponse.size() != 0) {
 
+                            rocketLaunches.postValue(rocketLaunchResponse);
+                            Log.d("DetailViewModel", "onNext, RocketLaunchResponse: " + rocketLaunchResponse);
+                        } else {
+                            // Arraylist is empty, so don't update the adapter
+                            Log.e(TAG, "onNext, rocketLaunchResponse is empty: " + rocketLaunchResponse);
+                        }
                     }
 
                     @Override
