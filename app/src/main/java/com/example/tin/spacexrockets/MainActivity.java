@@ -16,6 +16,10 @@ import com.example.tin.spacexrockets.models.rocket.RocketResponse;
 
 import java.util.ArrayList;
 
+import static com.example.tin.spacexrockets.MainViewModel.stateCodes.LOADING;
+import static com.example.tin.spacexrockets.MainViewModel.stateCodes.LOADING_COMPLETE;
+import static com.example.tin.spacexrockets.MainViewModel.stateCodes.LOADING_ERROR;
+
 public class MainActivity extends AppCompatActivity implements RocketPositionListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -62,7 +66,36 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
 
             }
         });
+
+        mainViewModel.listenToStatesLiveData().observe(this, new Observer<MainViewModel.stateCodes>() {
+            @Override
+            public void onChanged(@Nullable MainViewModel.stateCodes state) {
+
+                if (state.code == LOADING) {
+
+                    //showProgressBar();
+
+                } else if (state.code == LOADING_COMPLETE) {
+
+                    hideProgressBar();
+
+                } else if (state.code == LOADING_ERROR) {
+
+                    hideProgressBar();
+                    // or Toast or Alert Dialogue
+
+                }
+            }
+        });
     }
+
+    /**
+     *
+     * Button button {
+     *
+     *     mainViewModel.filter(filterByYear, rocketResponse);
+     * }
+     * */
 
     @Override
     public void rocketItemClick(RocketResponse rocketResponse) {
