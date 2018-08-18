@@ -16,15 +16,14 @@ import com.example.tin.spacexrockets.models.rocket.RocketResponse;
 
 import java.util.ArrayList;
 
-import static com.example.tin.spacexrockets.MainViewModel.stateCodes.LOADING;
-import static com.example.tin.spacexrockets.MainViewModel.stateCodes.LOADING_COMPLETE;
-import static com.example.tin.spacexrockets.MainViewModel.stateCodes.LOADING_ERROR;
+import static com.example.tin.spacexrockets.StateOfLoading.stateCodes.LOADING;
+import static com.example.tin.spacexrockets.StateOfLoading.stateCodes.LOADING_COMPLETE;
+import static com.example.tin.spacexrockets.StateOfLoading.stateCodes.LOADING_ERROR;
 
 public class MainActivity extends AppCompatActivity implements RocketPositionListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private MainViewModel mainViewModel;
     private RocketAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
         setupViews();
 
         bindOnViewModel();
-
     }
 
     private void setupViews() {
@@ -50,30 +48,21 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
 
         mAdapter = new RocketAdapter(getApplicationContext(), this);
         mRecyclerView.setAdapter(mAdapter);
+
+        mProgressBar = findViewById(R.id.pB_main);
     }
 
     private void bindOnViewModel() {
 
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
-        mainViewModel.listenToDataChanges().observe(this, new Observer<ArrayList<RocketResponse>>() {
+        mainViewModel.listenToStatesChanges().observe(this, new Observer<StateOfLoading.stateCodes>() {
             @Override
-            public void onChanged(@Nullable ArrayList<RocketResponse> rocketResponse) {
-
-                mAdapter.addItems(rocketResponse);
-
-                hideProgressBar();
-
-            }
-        });
-
-        mainViewModel.listenToStatesLiveData().observe(this, new Observer<MainViewModel.stateCodes>() {
-            @Override
-            public void onChanged(@Nullable MainViewModel.stateCodes state) {
+            public void onChanged(@Nullable StateOfLoading.stateCodes state) {
 
                 if (state.code == LOADING) {
 
-                    //showProgressBar();
+                    showProgressBar();
 
                 } else if (state.code == LOADING_COMPLETE) {
 
@@ -83,19 +72,28 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
 
                     hideProgressBar();
                     // or Toast or Alert Dialogue
-
                 }
+            }
+        });
+
+        mainViewModel.listenToDataChanges().observe(this, new Observer<ArrayList<RocketResponse>>() {
+            @Override
+            public void onChanged(@Nullable ArrayList<RocketResponse> rocketResponse) {
+
+                mAdapter.addItems(rocketResponse);
+
+                hideProgressBar();
             }
         });
     }
 
+    //TODO: Add code to filter ArrayList
     /**
-     *
      * Button button {
-     *
-     *     mainViewModel.filter(filterByYear, rocketResponse);
+     * <p>
+     * mainViewModel.filter(filterByYear, rocketResponse);
      * }
-     * */
+     */
 
     @Override
     public void rocketItemClick(RocketResponse rocketResponse) {
@@ -109,14 +107,15 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
 
     }
 
-    //TODO: Hide progress bar when data has downloaded in onNext in ViewModel
     public void hideProgressBar() {
 
-        mProgressBar = findViewById(R.id.pB_main);
         mProgressBar.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
+    }
 
+    public void showProgressBar() {
+
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
     }
 }
-
-

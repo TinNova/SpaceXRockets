@@ -22,7 +22,10 @@ public class DetailViewModel extends AndroidViewModel {
 
     private static final String TAG = DetailViewModel.class.getSimpleName();
 
-    private MutableLiveData<ArrayList<RocketLaunchResponse>> rocketLaunches;
+    private String mRocketId;
+
+    private MutableLiveData<ArrayList<RocketLaunchResponse>> rocketLaunchesLiveData;
+    private MutableLiveData<StateOfLoading.stateCodes> statesLiveData;
 
     @Inject
     RestService restService;
@@ -34,19 +37,41 @@ public class DetailViewModel extends AndroidViewModel {
 
     }
 
+
     public MutableLiveData<ArrayList<RocketLaunchResponse>> listenToDataChanges(String rocketId) {
 
-        if (rocketLaunches == null) {
+        mRocketId = rocketId;
+        Log.d(TAG, "listenToDataChanges(), rocketId: " + rocketId);
+        Log.d(TAG, "listenToDataChanges(), mRocketId: " + mRocketId);
 
-            rocketLaunches = new MutableLiveData<>();
 
-            loadItems(rocketId);
+        if (rocketLaunchesLiveData == null) {
+
+            rocketLaunchesLiveData = new MutableLiveData<>();
+
+            loadItems(mRocketId);
         }
 
-        return rocketLaunches;
+        return rocketLaunchesLiveData;
+    }
+
+    // Create a MutableLiveData that will be used to send messages to Activity, the Activity will have a switch statement to instruct it on what to do with each message.
+    public MutableLiveData<StateOfLoading.stateCodes> listenToStatesChanges(String rocketId) {
+
+        mRocketId = rocketId;
+
+        if (statesLiveData == null) {
+
+            statesLiveData = new MutableLiveData<>();
+
+            loadItems(mRocketId);
+        }
+        return statesLiveData;
     }
 
     public void loadItems(String rocketId) {
+
+        statesLiveData.postValue(new StateOfLoading.stateCodes(0, "loading"));
 
         restService.getRocketLaunches(rocketId)
                 .subscribeOn(Schedulers.io())
@@ -62,16 +87,20 @@ public class DetailViewModel extends AndroidViewModel {
 
                         if (rocketLaunchResponse.size() != 0) {
 
-                            rocketLaunches.postValue(rocketLaunchResponse);
+                            rocketLaunchesLiveData.postValue(rocketLaunchResponse);
                             Log.d("DetailViewModel", "onNext, RocketLaunchResponse: " + rocketLaunchResponse);
                         } else {
                             // Arraylist is empty, so don't update the adapter
                             Log.e(TAG, "onNext, rocketLaunchResponse is empty: " + rocketLaunchResponse);
                         }
+
+                        statesLiveData.postValue(new StateOfLoading.stateCodes(1, "loadingComplete"));
                     }
 
                     @Override
                     public void onError(Throwable e) {
+
+                        statesLiveData.postValue(new StateOfLoading.stateCodes(2, "loadingFailed"));
 
                         Log.e("DetailViewModel", "onError: error while load listings " + Log.getStackTraceString(e));
                     }
@@ -82,5 +111,4 @@ public class DetailViewModel extends AndroidViewModel {
                     }
                 });
     }
-
 }
