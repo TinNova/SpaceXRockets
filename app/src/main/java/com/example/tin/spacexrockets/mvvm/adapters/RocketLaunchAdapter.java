@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tin.spacexrockets.R;
 import com.example.tin.spacexrockets.models.rocketLaunch.RocketLaunchResponse;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -44,11 +46,7 @@ public class RocketLaunchAdapter extends RecyclerView.Adapter<RocketLaunchAdapte
         viewHolder.missionNameTv.setText(rocketLaunch.getMissionName());
         viewHolder.launchDateTv.setText(rocketLaunch.getLaunchDateUtc());
         viewHolder.launchSuccessTv.setText(Boolean.toString(rocketLaunch.getLaunchSuccess()));
-
-
-        /** Picasso required to insert image of Mission_Patch */
-//        viewHolder.launchSuccessTv.setText(rocketLaunch.getLinks().getMissionPatchSmall());
-
+        Picasso.get().load(rocketLaunch.getLinks().getMissionPatchSmall()).into(viewHolder.missionPatchIv);
 
     }
 
@@ -74,7 +72,7 @@ public class RocketLaunchAdapter extends RecyclerView.Adapter<RocketLaunchAdapte
         final TextView missionNameTv;
         final TextView launchDateTv;
         final TextView launchSuccessTv;
-        //final ImageView missionPatchIv;
+        final ImageView missionPatchIv;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -83,7 +81,7 @@ public class RocketLaunchAdapter extends RecyclerView.Adapter<RocketLaunchAdapte
             missionNameTv = itemView.findViewById(R.id.tV_missionName);
             launchDateTv = itemView.findViewById(R.id.tV_launchDate);
             launchSuccessTv = itemView.findViewById(R.id.tV_launchSuccess);
-//            missionPatchIv = itemView.findViewById(R.id.iV_missionPatch);
+            missionPatchIv = itemView.findViewById(R.id.iV_missionPatch);
 
         }
     }
