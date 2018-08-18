@@ -1,4 +1,4 @@
-package com.example.tin.spacexrockets;
+package com.example.tin.spacexrockets.mvvm;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -6,6 +6,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.tin.spacexrockets.AppClass;
+import com.example.tin.spacexrockets.RestService;
+import com.example.tin.spacexrockets.StateOfLoading;
 import com.example.tin.spacexrockets.models.rocket.RocketResponse;
 
 import java.util.ArrayList;

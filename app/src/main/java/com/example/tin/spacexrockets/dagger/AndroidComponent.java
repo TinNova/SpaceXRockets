@@ -1,8 +1,8 @@
 package com.example.tin.spacexrockets.dagger;
 
 import com.example.tin.spacexrockets.AppClass;
-import com.example.tin.spacexrockets.DetailViewModel;
-import com.example.tin.spacexrockets.MainViewModel;
+import com.example.tin.spacexrockets.mvvm.DetailViewModel;
+import com.example.tin.spacexrockets.mvvm.MainViewModel;
 
 import javax.inject.Singleton;
 

@@ -14,8 +14,8 @@ public class StateOfLoading {
         public static final int LOADING_COMPLETE = 1;
         public static final int LOADING_ERROR = 2;
 
-        int code;
-        String message;
+        public int code;
+        public String message;
 
         public stateCodes(int i, String loadingState) {
 

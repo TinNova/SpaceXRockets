@@ -1,4 +1,4 @@
-package com.example.tin.spacexrockets;
+package com.example.tin.spacexrockets.mvvm;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -12,6 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tin.spacexrockets.R;
+import com.example.tin.spacexrockets.mvvm.adapters.RocketLaunchAdapter;
+import com.example.tin.spacexrockets.StateOfLoading;
 import com.example.tin.spacexrockets.models.rocketLaunch.RocketLaunchResponse;
 
 import java.util.ArrayList;
