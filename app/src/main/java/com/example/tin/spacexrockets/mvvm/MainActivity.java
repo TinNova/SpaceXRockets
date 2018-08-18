@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
         mRecyclerView.setAdapter(mAdapter);
 
         mProgressBar = findViewById(R.id.pB_main);
+
+        pullToRefresh();
+
     }
 
     private void bindOnViewModel() {
@@ -135,15 +139,20 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
 
     }
 
+    private void pullToRefresh() {
 
-    //TODO: Add code to filter ArrayList
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.sRL_main);
 
-    /**
-     * Button button {
-     * <p>
-     * mainViewModel.filter(filterByYear, rocketResponse);
-     * }
-     */
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                mainViewModel.loadItems();
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+    }
+
 
     @Override
     public void rocketItemClick(RocketResponse rocketResponse) {
