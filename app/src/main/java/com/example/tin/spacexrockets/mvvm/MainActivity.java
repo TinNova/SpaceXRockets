@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
     private RocketAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
+    MainViewModel mainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
 
     private void bindOnViewModel() {
 
-        MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         mainViewModel.listenToStatesChanges().observe(this, new Observer<StateOfLoading.stateCodes>() {
             @Override
@@ -89,9 +93,51 @@ public class MainActivity extends AppCompatActivity implements RocketPositionLis
                 hideProgressBar();
             }
         });
+
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu options from the res/menu/menu_catalog.xml file.
+        // This adds menu items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    /**
+     * Dropdown list of options when Menu button has been clicked
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        boolean FILTER_ACTIVE = false;
+        if (item.getItemId() == R.id.filter_by_active) {
+
+            FILTER_ACTIVE = true;
+
+
+        } else if (item.getItemId() == R.id.filter_by_all) {
+
+            FILTER_ACTIVE = false;
+
+        }
+
+        mainViewModel.listenToFilterChanges(FILTER_ACTIVE).observe(this, new Observer<ArrayList<RocketResponse>>() {
+            @Override
+            public void onChanged(@Nullable ArrayList<RocketResponse> rocketResponse) {
+
+                mAdapter.addItems(rocketResponse);
+
+            }
+        });
+        return super.onOptionsItemSelected(item);
+
+
+    }
+
+
     //TODO: Add code to filter ArrayList
+
     /**
      * Button button {
      * <p>

@@ -37,6 +37,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView descTv;
     private TextView descTitleTv;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +102,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+
         detailViewModel.listenToDataChanges(rocketId).observe(this, new android.arch.lifecycle.Observer<ArrayList<RocketLaunchResponse>>() {
             @Override
             public void onChanged(@android.support.annotation.Nullable ArrayList<RocketLaunchResponse> response) {
@@ -112,6 +114,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+
 
     //TODO: Hide progress bar when data has downloaded in onNext in ViewModel
     public void hideProgressBar() {

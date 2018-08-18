@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.tin.spacexrockets.AppClass;
+import com.example.tin.spacexrockets.utils.FilterRocketResponse;
 import com.example.tin.spacexrockets.RestService;
 import com.example.tin.spacexrockets.StateOfLoading;
 import com.example.tin.spacexrockets.models.rocket.RocketResponse;
@@ -30,6 +31,7 @@ public class MainViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArrayList<RocketResponse>> rocketsLiveData;
     private MutableLiveData<StateOfLoading.stateCodes> statesLiveData;
+    private MutableLiveData<ArrayList<RocketResponse>> filteredRocketsLiveData;
 
     @Inject
     RestService restService;
@@ -39,6 +41,29 @@ public class MainViewModel extends AndroidViewModel {
 
         ((AppClass) application).getAndroidComponent().inject(this);
     }
+
+    public MutableLiveData<ArrayList<RocketResponse>> listenToFilterChanges(boolean filterActive) {
+
+        if (filteredRocketsLiveData == null) {
+
+            filteredRocketsLiveData = new MutableLiveData<>();
+        }
+
+        if (filterActive) {
+
+            ArrayList<RocketResponse> filteredResponse;
+            // if user wants to see only Active rockets
+            filteredResponse = FilterRocketResponse.filterRocketResponse(mRocketResponse);
+
+            filteredRocketsLiveData.postValue(filteredResponse);
+        } else {
+
+            filteredRocketsLiveData.postValue(mRocketResponse);
+
+        }
+        return filteredRocketsLiveData;
+    }
+
 
     public MutableLiveData<ArrayList<RocketResponse>> listenToDataChanges() {
 
@@ -62,25 +87,6 @@ public class MainViewModel extends AndroidViewModel {
         }
         return statesLiveData;
     }
-
-
-    //TODO: Add code to filter arrayList
-//    // This is how we will filter a list, the rocketResponse is saved in the ViewModel, so we only need the Activity
-//    // to send us a String with the instructions (filter large to small, or filter by year ect...
-//    // With these instructions we can call a class to do the business logic, then pass the ArrayList back through the rocketsLiveData listeners.
-//    public void filterList(String filter){
-//
-//        if (filter.length() == 0){
-//
-//            rocketsLiveData.postValue(mRocketResponse);
-//        } else {
-//
-//            //Connect to a class that filters the data
-//
-//            // Return list of filteredList
-//            rocketsLiveData.postValue(filteredList);
-//        }
-//    }
 
     public void loadItems() {
 
