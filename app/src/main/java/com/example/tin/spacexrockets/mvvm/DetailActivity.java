@@ -3,6 +3,7 @@ package com.example.tin.spacexrockets.mvvm;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -75,6 +76,9 @@ public class DetailActivity extends AppCompatActivity {
             descTv.setText(getIntent.getStringExtra("DESC"));
 
             bindOnViewModel(rocketId);
+
+            pullToRefresh(rocketId);
+
         }
     }
 
@@ -111,6 +115,20 @@ public class DetailActivity extends AppCompatActivity {
 
                 // Never triggered if Big Falcon Rocket is clicked on, check onNext in ViewModel for more info
                 hideProgressBar();
+            }
+        });
+    }
+
+    private void pullToRefresh(final String rocketId) {
+
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.sRL_detail);
+
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                detailViewModel.loadItems(rocketId);
+                pullToRefresh.setRefreshing(false);
             }
         });
     }
